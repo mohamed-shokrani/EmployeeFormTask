@@ -1,0 +1,32 @@
+﻿@using EmployeeFormTask.ViewModels
+@model List<EmployeeViewModel>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model[0].Name)</th>
+            <th>@Html.DisplayNameFor(model => model[0].Gender)</th>
+            <th>@Html.DisplayNameFor(model => model[0].JobRoleViewModel.RoleName)</th>
+            <th>@Html.DisplayNameFor(model => model[0].IsFirstAppointment)</th>
+            <th>@Html.DisplayNameFor(model => model[0].StartDate)</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr >
+
+            <td > @item.Name</td>
+            <td> @item.Gender</td>
+
+           <td> @item.JobRoleViewModel.RoleName</td>
+
+             <td> @item.IsFirstAppointment</td>
+
+            <td> @item.StartDate</td>
+        
+           
+        </tr>
+      }
+    </tbody>
+</table>
