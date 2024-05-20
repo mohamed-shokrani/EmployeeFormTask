@@ -1,0 +1,45 @@
+﻿@model EmployeeCreateUpdateVM
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<form asp-action="Create" method="post" id="employeeForm">
+    <div class="d-flex">
+        <div class="form-group col-4">
+            <label asp-for="Name"></label>
+            <input class="form-control" asp-for="Name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group col-3 mx-2">
+            <label>Role Name</label>
+            <select asp-for="JobRoleId" class="form-control" asp-items='new SelectList(Model.JobRoles, "Id", "RoleName")'>
+                <option value="">Select</option>
+            </select>
+            <span asp-validation-for="JobRoleId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="d-flex my-3">
+        <div class="form-group">
+            <span> Gender: </span>
+            <label>Male</label>
+            <input id="Gender" asp-for="Gender" type="radio" value="1" />
+            <label>Female</label>
+            <input id="Gender" asp-for="Gender" type="radio" value="2" />
+            <span asp-validation-for="Gender" class="text-danger"></span>
+        </div>
+        <div class="form-group mx-5">
+            <label>Is this your first appointment</label>
+            <input class="form-check-input" asp-for="IsFirstAppointment" type="checkbox" />
+        </div>
+    </div>
+    <div class="form-group col-3 my-3">
+        <label asp-for="StartDate"></label>
+        <input asp-for="StartDate" class="form-control" type="date" value="@DateTime.Today.ToString("MM/dd/yyyy")" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+    <div class="form-group col-7 mb-2">
+        <label asp-for="Notes"></label>
+        <textarea class="form-control" asp-for="Notes"></textarea>
+    </div>
+    <input type="submit" value="Save" class="btn btn-success" />
+    <a asp-action="Index" class="btn btn-warning">Back</a>
+</form>

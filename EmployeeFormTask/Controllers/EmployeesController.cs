@@ -1,37 +1,48 @@
-﻿using EmployeeFormTask.Data;
-using EmployeeFormTask.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
-namespace EmployeeFormTask.Controllers
+﻿namespace EmployeeFormTask.Controllers;
+public class EmployeesController : Controller
 {
-    public class EmployeesController : Controller
+    private readonly IEmployeeService _employeeService;
+
+    public EmployeesController(IEmployeeService employeeService)
     {
-        private readonly AppDbContext _context;
-
-        public EmployeesController(AppDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<IActionResult> Index()
-        {
-             var employess =await _context.Employees.Include(r=>r.JobRole)
-                                .Select(e => new EmployeeViewModel
-                                 {
-                                     Name = e.Name,
-                                     Gender = e.Gender,
-                                     Notes = e.Notes,
-                 
-                                     IsFirstAppointment = e.IsFirstAppointment,
-                                     StartDate = e.StartDate,
-                                     JobRoleViewModel = new JobRoleViewModel
-                                     {
-                                         Id = e.JobRoleId,
-                                         RoleName =e.JobRole.Name
-                                     } 
-             }).ToListAsync();
-            return View(employess);
-        }
+        _employeeService = employeeService;
     }
+
+    public async Task<IActionResult> Index()
+    {
+        var employess = await _employeeService.GetAllEmployee();
+        return View(employess);
+    }
+    public async Task<IActionResult> Create()
+    {
+        var jobRoles = await _employeeService.GetAllJobRoles();
+        var emp = new EmployeeCreateUpdateVM
+           {
+            JobRoles = _employeeService.GetJobRoles()
+           };
+        return View(emp);
+    }
+    [HttpPost]
+    public async Task<IActionResult> Create(EmployeeCreateUpdateVM vM)
+    {
+        if (!ModelState.IsValid)
+        {
+            vM.JobRoles = _employeeService.GetJobRoles();
+            return View(vM);
+        }
+
+        if (!await _employeeService.IsJobRoleExists(vM.JobRoleId))
+        {
+            ModelState.AddModelError(string.Empty, "Invalid job role.");
+            vM.JobRoles = _employeeService.GetJobRoles();
+            return View(vM);
+        }
+      var result  =  await _employeeService.Create(vM);
+        if (result)
+        {
+            return Json(new { success = true });
+        }
+        return RedirectToAction("Index");
+    }
+
 }

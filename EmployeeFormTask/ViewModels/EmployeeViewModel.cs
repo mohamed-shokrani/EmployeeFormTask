@@ -10,9 +10,11 @@ public class EmployeeViewModel
     [Display(Name = "Gender")]
 
     public Gender Gender { get; set; }
+    [Display(Name = "First Appointment")]
+
     public bool IsFirstAppointment { get; set; }
     [StringLength(700), Display(Name = "Notes")]
-    public string Notes { get; set; }
+    public string? Notes { get; set; }
     [Display(Name = "Start Date")]
 
     public DateTime StartDate { get; set; }

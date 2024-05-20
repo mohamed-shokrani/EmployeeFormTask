@@ -1,0 +1,12 @@
+﻿@model EmployeeCreateUpdateVM
+
+<div class="container" id="formContainer">
+    @await Html.PartialAsync("_CreateForm", Model)
+</div>
+
+@section Scripts {
+    <script>
+        var redirectToIndexUrl = '@Url.Action("Index", "Employees")';
+    </script>
+    <script src="~/js/employee/employee.js"></script>
+}

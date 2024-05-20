@@ -1,5 +1,9 @@
-﻿@using EmployeeFormTask.ViewModels
-@model List<EmployeeViewModel>
+﻿@model List<EmployeeViewModel>
+<div class="container">
+<a class="btn btn-success" asp-action="create">Create</a>
+ @if (Model.Any() && Model  is not null)
+        {
+         
 <table class="table">
     <thead>
         <tr>
@@ -8,25 +12,39 @@
             <th>@Html.DisplayNameFor(model => model[0].JobRoleViewModel.RoleName)</th>
             <th>@Html.DisplayNameFor(model => model[0].IsFirstAppointment)</th>
             <th>@Html.DisplayNameFor(model => model[0].StartDate)</th>
+               
 
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr >
+       
+            @foreach (var item in Model)
+            {
+                <tr>
 
-            <td > @item.Name</td>
-            <td> @item.Gender</td>
+                    <td> @item.Name</td>
+                    <td> @item.Gender</td>
 
-           <td> @item.JobRoleViewModel.RoleName</td>
+                    <td> @item.JobRoleViewModel.RoleName</td>
 
-             <td> @item.IsFirstAppointment</td>
+                        <td> @(item.IsFirstAppointment ? "✅" : "❌")</td>
 
-            <td> @item.StartDate</td>
+                    <td> @item.StartDate</td>
+
+
+                </tr>
+            }
         
-           
-        </tr>
-      }
+       
+
     </tbody>
 </table>
+}
+else
+{
+  
+        <h3 class="text-center">Sorry theire is no data Available</h3>
+   
+
+}
+</div>
